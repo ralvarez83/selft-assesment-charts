@@ -1,19 +1,18 @@
 import { useState } from 'react'
 import './App.css'
-import { LoadFile } from './assets/components/LoadFile'
+import { LoadFile } from './components/LoadFile'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [data, setData] = useState("");
 
-  const onUpload = (file : File) => {
+  // const onUpload = (file : File) => {
 
-  }
+  // }
 
   return (
     <>
       {!data && 
-        <LoadFile onUpload={onUpload}/>
+        <LoadFile />
       }
     </>
   )

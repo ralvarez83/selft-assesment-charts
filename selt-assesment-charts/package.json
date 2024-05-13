@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@files-ui/core": "^2.0.7",
+    "@files-ui/react": "^1.2.4",
+    "@loaders.gl/excel": "^4.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-uploader": "^3.43.0",
-    "upload-js": "^2.24.3",
-    "uploader": "^3.48.3"
+    "read-excel-file": "^5.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
