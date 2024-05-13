@@ -1,26 +1,25 @@
+export const BACKLOG_TRABAJADO = "Backlog trabajado"
+export const CANAL_SOLICITUD = "Canal solicitud"
+export const CO_RESPONSABILIDAD = "Co-responsabilidad"
+
 
 export type Evaluation = {
 
-  "Backlog trabajado": number,
-  "Canal solicitud": Strint[],
-  "Co-responsabilidad": number,
-  "Coordinación inter-equipos": number,
-  "Evento (Scrum o Kanban)": number,
-  "Feedback usuarios": number,
-  Id: number,
-  "Mejora continua": number,
-  Multidisciplinar: number,
-  "Progreso por trabajo terminado": number,
-  "Roles (Scrum o Kanban)": number,
-  "Trabajo desde Backlog": number,
-  "Áreas solicitantes": string,
-  "Comunicación con otras áreas": number
-  "Otras mejoras": string,
-}
-
-export type TeamAssesment = {
-  name: string,
-  evaluations: Evaluation[]
+  backlogGestionadoPriorizadoActualizado: number,
+  canalSolicitud: Strint[],
+  coResponsabilidad: number,
+  coordinacionInterEquipos: number,
+  eventosScrumKanban: number,
+  feedbackUsuarios: number,
+  id: number,
+  mejoraContinua: number,
+  multidisciplinar: number,
+  progresoPorTrabajoTerminado: number,
+  rolesScrumKanban: number,
+  trabajoDesdeBacklog: number,
+  areasSolicitantes: string,
+  comunicacionOtrasAreas: number
+  otrasMejoras: string,
 }
 
 export type Assesment = TeamAssesment[]

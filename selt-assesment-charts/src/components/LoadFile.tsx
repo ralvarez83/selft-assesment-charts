@@ -3,7 +3,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import readXlsxFile from 'read-excel-file'
 import { type Input, schema, type ExcelAssesment } from "../infraestructure/LoadFile/types";
 import { ExtFile } from "@files-ui/core";
-import { Assesment, Evaluation, TeamAssesment } from "../Domain/type";
+import { Assesment, Evaluation } from "../Domain/type";
+import { TeamAssesment } from "../Domain/TeamAssesment";
 
 interface Props {
   setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
@@ -21,20 +22,20 @@ export const LoadFile : React.FC<Props> = ({setAssesment}) => {
       // console.log("Datos: ", rows)
 
       const assesment = rows.reduce((totalAssesment: Assesment, personAssesment) => {
-        const {Equipo} = (personAssesment as ExcelAssesment)
+        const {equipo} = (personAssesment as ExcelAssesment)
 
-        if (totalAssesment.find((team: TeamAssesment) => {return team.name === Equipo}) === undefined){
+        if (totalAssesment.find((team: TeamAssesment) => {return team.name === equipo}) === undefined){
           totalAssesment = [
             ... totalAssesment,
             {
-              name: Equipo,
+              name: equipo,
               evaluations: [{... (personAssesment as Evaluation)}]
             }
           ]
         }
         else{
           totalAssesment = totalAssesment.map(team => {
-            if (team.name === Equipo)
+            if (team.name === equipo)
               team.evaluations = [
                 ... team.evaluations,
                 {... (personAssesment as Evaluation)}
@@ -47,6 +48,8 @@ export const LoadFile : React.FC<Props> = ({setAssesment}) => {
 
       }, Array<TeamAssesment>(0))
       
+      console.log("Assesment: ", assesment)
+
       setAssesment(assesment)
       
     })
