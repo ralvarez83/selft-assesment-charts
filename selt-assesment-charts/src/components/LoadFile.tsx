@@ -1,47 +1,53 @@
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import readXlsxFile from 'read-excel-file'
 import { type Input, schema, type ExcelAssesment } from "../infraestructure/LoadFile/types";
 import { ExtFile } from "@files-ui/core";
-import { Assesment, TeamAssesment } from "../Domain/type";
-// interface Props {
-//   onUpload: (file: File) => void
-// }
+import { Assesment, Evaluation, TeamAssesment } from "../Domain/type";
 
-export const LoadFile : React.FC = () => {
+interface Props {
+  setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
+}
+
+export const LoadFile : React.FC<Props> = ({setAssesment}) => {
   const [files, setFiles] = useState(new Array<ExtFile>(0));
   
   const updateFiles = (incommingFiles: ExtFile[]) => {
-    console.log("incomming files", incommingFiles);
+    // console.log("incomming files", incommingFiles);
     setFiles(incommingFiles);
     readXlsxFile(incommingFiles[0].file as Input, {schema}).then(({ rows, errors }) => {
       errors.length === 0
 
-      console.log("Datos: ", rows)
+      // console.log("Datos: ", rows)
 
-      const assesments: Assesment = rows.reduce((totalAssesment, personAssesment) => {
-        const teamMemberAssesment: string = (personAssesment as ExcelAssesment).Equipo
-        const teamAssesment: TeamAssesment = (totalAssesment as Assesment).find((evaluation) => {
-          return (evaluation.equipo === teamMemberAssesment)
-        }) || {
-          equipo: teamMemberAssesment,
-          evaluaciones: []
-        }
-        const newTeamAssesment: TeamAssesment = {
-          equipo: teamAssesment.equipo,
-          evaluaciones: [
-            ... teamAssesment.evaluaciones,
-            personAssesment as ExcelAssesment
+      const assesment = rows.reduce((totalAssesment: Assesment, personAssesment) => {
+        const {Equipo} = (personAssesment as ExcelAssesment)
+
+        if (totalAssesment.find((team: TeamAssesment) => {return team.name === Equipo}) === undefined){
+          totalAssesment = [
+            ... totalAssesment,
+            {
+              name: Equipo,
+              evaluations: [{... (personAssesment as Evaluation)}]
+            }
           ]
         }
-        totalAssesment = [
-          ...totalAssesment as Assesment,
-          newTeamAssesment
-        ]
-        return totalAssesment
-      })
+        else{
+          totalAssesment = totalAssesment.map(team => {
+            if (team.name === Equipo)
+              team.evaluations = [
+                ... team.evaluations,
+                {... (personAssesment as Evaluation)}
+              ]
+            return team;
+          })
+        }
 
-      console.log("Datos agregados", assesments)
+        return totalAssesment;
+
+      }, Array<TeamAssesment>(0))
+      
+      setAssesment(assesment)
       
     })
   };

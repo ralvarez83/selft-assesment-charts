@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './App.css'
 import { LoadFile } from './components/LoadFile'
+import { Assesment } from './Domain/type';
 
 function App() {
-  const [data, setData] = useState("");
+  const [assesment, setAssesment] = useState<Assesment>();
 
   // const onUpload = (file : File) => {
 
@@ -11,9 +12,10 @@ function App() {
 
   return (
     <>
-      {!data && 
-        <LoadFile />
+      {!assesment && 
+        <LoadFile setAssesment={setAssesment} />
       }
+      
     </>
   )
 }

@@ -19,8 +19,8 @@ export type Evaluation = {
 }
 
 export type TeamAssesment = {
-  equipo: string,
-  evaluaciones: Evaluation[]
+  name: string,
+  evaluations: Evaluation[]
 }
 
 export type Assesment = TeamAssesment[]
