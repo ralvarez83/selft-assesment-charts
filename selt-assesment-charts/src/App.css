@@ -3,19 +3,48 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  --primary: #009874;
+  --shadow: 0px 1px 19px rgba(0, 0, 0, 0.15);
+  --shadowhover: 0px 10px 29px rgba(0, 0, 0, 0.35);
+  --shadow2: 0px 3px 4px rgba(0, 0, 0, 0.14);
+  --shadow3: 0px 1px 10px rgba(0, 0, 0, 0.05);
+  --text-shadow: 1px 1px rgba(0, 0, 0, 0.35);
+
+  --primary2: #002631;
+  --primary3: #E4B347;
+  --primary4: #009874;
+  --primary5: #929C1B;
+  --grey: #828282;
+
+    
+  --gradient: linear-gradient(90deg, #B0BC26 0%, #009874 100%);
+  --gradient2: linear-gradient(90deg, #E4B347 0%, #DA4F65 100%);
+  --gradient-verde: linear-gradient(90deg, #002631 0%, #009874 100%);
+
+  --gradient-hover: linear-gradient(90deg, #B0BC26 80%, #009874 100%);
+
+  --font-base: 'Montserrat', sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+body{
+  font-family: "Montserrat", Helvetica, Arial, sans-serif;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+header{
+  h1{
+    color: var(--primary)
+  }
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+section{
+  h2{
+    color: var(--primary3)
+  }
+  article{
+    display: flex;
+    max-height: 40rem;
+  }
 }
 
 @keyframes logo-spin {
