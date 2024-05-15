@@ -1,5 +1,5 @@
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import {  useContext, useState } from "react";
 import readXlsxFile from 'read-excel-file'
 import { type Input, schema, type ExcelAssesment } from "../infraestructure/LoadFile/types";
 import { ExtFile } from "@files-ui/core";
@@ -7,6 +7,7 @@ import { TeamAssesment } from "../Domain/TeamAssesment";
 import { Assesment } from "../Domain/Assesment";
 import { Evaluation } from "../Domain/type";
 import { AssesmentContext } from "../App";
+import { Solicitudes } from "../Domain/Solicitudes";
 
 // interface Props {
 //   setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
@@ -27,10 +28,15 @@ export const LoadFile = (): JSX.Element => {
       // console.log("Datos: ", rows)
 
       const teamAssesments = rows.reduce((totalAssesment: TeamAssesment[], personAssesment) => {
-        const {equipo} = (personAssesment as ExcelAssesment)
+        const {equipo, areasSolicitantes, comunicacionOtrasAreas, canalSolicitud, otrasMejoras} = (personAssesment as ExcelAssesment)
 
         if (totalAssesment.find((team: TeamAssesment) => {return team.name === equipo}) === undefined){
-          const newTeam : TeamAssesment = new TeamAssesment(equipo, [{... (personAssesment as Evaluation)}])
+          const newTeam : TeamAssesment = new TeamAssesment(
+            equipo, 
+            [{... (personAssesment as Evaluation)}],
+            [new Solicitudes(areasSolicitantes, comunicacionOtrasAreas, canalSolicitud)],
+            [otrasMejoras]
+          )
 
           totalAssesment = [
             ... totalAssesment,
@@ -43,6 +49,14 @@ export const LoadFile = (): JSX.Element => {
               team.evaluations = [
                 ... team.evaluations,
                 {... (personAssesment as Evaluation)}
+              ]
+              team.solicitudes = [
+                ... team.solicitudes,
+                new Solicitudes(areasSolicitantes, comunicacionOtrasAreas, canalSolicitud)
+              ]
+              team.otrasMejoras = [
+                ... team.otrasMejoras,
+                otrasMejoras
               ]
             return team;
           })

@@ -1,12 +1,19 @@
 import { MedianFromArray } from "../Shared/Math/MedianFromArray"
+import { Solicitudes } from "./Solicitudes"
 import { Evaluation } from "./type"
 
 export class TeamAssesment{
   /**
    * constructor
    */
-  public constructor(public name: string, public evaluations: Evaluation[]) {
-    
+  public constructor(public name: string, public evaluations: Evaluation[], public solicitudes: Solicitudes[], public otrasMejoras: string[]) {
+    this._id = this.name.replace(' ', '-')
+  }
+
+  private _id : string
+
+  public get id () : string {
+    return this._id
   }
 
   private _mediane? : Evaluation
@@ -33,6 +40,26 @@ export class TeamAssesment{
     }
     
     return this._mediane
+  }
+
+  private _comunicationMediane? : number
+
+  /**
+   * get comunicacionMedian
+   */
+  public get comunicationMediane(): number {
+    if (!this._comunicationMediane){
+      this._comunicationMediane = this.calComunicationMediane()
+    }
+
+    return this._comunicationMediane
+  }
+
+  private calComunicationMediane  = (): number => {
+    const comunicaciontValorations = this.solicitudes.map<number>((solicitud) => {
+      return solicitud.comunicacionOtrasAreas
+    })
+    return this.calcMedian(comunicaciontValorations)
   }
 
   private calcMedian = (arrayOfNumbers: number[]) => {

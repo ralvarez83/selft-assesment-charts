@@ -63,7 +63,7 @@ export const RadarChart: React.FC<Props> = ({teamsData}) => {
     datasets
   };
 
-  console.log("Data Chart: ", data)
+  //console.log("Data Chart: ", data)
 
   const options = {
     animations: {

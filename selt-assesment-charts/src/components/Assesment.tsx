@@ -1,15 +1,16 @@
 
 import { useContext } from "react";
-import { Assesment } from "../Domain/Assesment"
 import { TeamAssesment } from "../Domain/TeamAssesment"
 import { RadarChart } from "./Assesments/RadarChart"
 import { AssesmentContext } from "../App";
+import { Link } from 'react-router-dom';
+import { ValorationBar } from "./shared/ValorationBat";
 
 // interface Props{
 //   dataAssesment: Assesment
 // }
 
-export const Assesments: React.FC<Props> = () => {
+export const Assesments = (): JSX.Element => {
 
   const {
     assesment
@@ -22,7 +23,7 @@ export const Assesments: React.FC<Props> = () => {
   return (
     <main>
     <h2>Datos globales</h2>
-    <section>
+    <section className="grid">
       <article>
         <figure>
           <figcaption>Datos globales</figcaption>
@@ -37,21 +38,20 @@ export const Assesments: React.FC<Props> = () => {
     </section>
     
     <h2>Datos por equipo</h2>
-    <section>
+    <section className="grid">
         {dataAssesment.teamAssesments.map(teamAssesment => {
           return (
-            <article>
+            <article key={teamAssesment.id}>
               <figure>
-                <figcaption>{teamAssesment.name}</figcaption>
+                <figcaption><Link to={'/assesment/team/' + teamAssesment.id}>{teamAssesment.name}</Link></figcaption>
                 <RadarChart teamsData={[teamAssesment]} />
               </figure>
+              <ValorationBar title="Valoracion comunicación" max={5} value={Number.parseInt(teamAssesment.comunicationMediane)} />
             </article>
           )
         })}
     </section>
-    
-
-    
+       
     </main>
   )
 }

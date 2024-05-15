@@ -76,4 +76,10 @@ export const schema = {
   }
 }
 
-export type ExcelAssesment = Evaluation & { 'equipo': string }
+export type ExcelAssesment = Evaluation & { 
+  equipo: string,
+  areasSolicitantes: string,
+  comunicacionOtrasAreas: number,
+  canalSolicitud: string[],
+  otrasMejoras: string
+}
