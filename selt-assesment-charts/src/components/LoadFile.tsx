@@ -1,18 +1,22 @@
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import readXlsxFile from 'read-excel-file'
 import { type Input, schema, type ExcelAssesment } from "../infraestructure/LoadFile/types";
 import { ExtFile } from "@files-ui/core";
 import { TeamAssesment } from "../Domain/TeamAssesment";
 import { Assesment } from "../Domain/Assesment";
 import { Evaluation } from "../Domain/type";
+import { AssesmentContext } from "../App";
 
-interface Props {
-  setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
-}
+// interface Props {
+//   setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
+// }
 
-export const LoadFile : React.FC<Props> = ({setAssesment}) => {
+export const LoadFile = (): JSX.Element => {
   const [files, setFiles] = useState(new Array<ExtFile>(0));
+  const {
+    cargaAssesment
+  } = useContext(AssesmentContext);
   
   const updateFiles = (incommingFiles: ExtFile[]) => {
     // console.log("incomming files", incommingFiles);
@@ -52,12 +56,12 @@ export const LoadFile : React.FC<Props> = ({setAssesment}) => {
       
       // console.log("Assesment: ", assesment)
 
-      setAssesment(assesment)
+      cargaAssesment(assesment)
       
     })
   };
   return (
-    <>
+    <main>
       <Dropzone
         onChange={updateFiles}
         maxFiles={1}
@@ -69,6 +73,6 @@ export const LoadFile : React.FC<Props> = ({setAssesment}) => {
           <FileMosaic key={file.id} {...file} info />
         ))}
       </Dropzone>
-    </>
+    </main>
   );
 }
