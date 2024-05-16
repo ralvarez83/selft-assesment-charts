@@ -1,18 +1,27 @@
+import {
+  useNavigate
+} from 'react-router-dom'
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { AssesmentContext } from "../App";
+import { AssesmentContext, AssesmentContextType } from "../App";
 import { RadarChart } from "./Assesments/RadarChart";
 import { ValorationBar } from "./shared/ValorationBat";
+import { Assesment } from '../Domain/Assesment';
 
 export const Team = (): JSX.Element => {
   const {id} = useParams();
-  const {
-    assesment
-  } = useContext(AssesmentContext);
+
+  const assesmentContext : AssesmentContextType | null = useContext(AssesmentContext);
+  const navigate = useNavigate();
   
+  if (!assesmentContext || !id){
+    navigate('/', {replace: true})
+  }
   
-  const team = assesment.getTeamById(id)
-  console.log(team.comunicationMediane)
+  const assesment : Assesment = (assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([])
+  
+  const team = assesment.getTeamById(!id? "0": id)
+  console.log(team?.comunicationMediane)
   
   console.log("Team: ", team)
   return (
@@ -31,7 +40,7 @@ export const Team = (): JSX.Element => {
               </figure>
             </article>
             <article>
-            <ValorationBar title="Valoracion" max={5} value={Number.parseInt(team.comunicationMediane)} />
+            <ValorationBar title="Valoracion" max={5} value={team?.comunicationMediane} />
             </article>
           </section>
           <section>
@@ -56,7 +65,7 @@ export const Team = (): JSX.Element => {
                     <div>
                       <dt><strong>Solicitantes: </strong>{solicitud.areasSolicitantes}</dt>
                       <dd>
-                        <ValorationBar title="Valoracion" max={5} value={Number.parseInt(solicitud.comunicacionOtrasAreas)} />
+                        <ValorationBar title="Valoracion" max={5} value={solicitud.comunicacionOtrasAreas} />
                         <small className="canales">
                           <strong>Canales:</strong> 
                           <div>{solicitud.canalSolicitud.map(canal => {

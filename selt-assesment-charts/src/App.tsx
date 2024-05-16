@@ -12,13 +12,18 @@ import { DevFooter } from './components/DevFooter';
 import { Assesment } from './Domain/Assesment';
 import { Team } from './components/Team';
 
+export type AssesmentContextType = {
+  assesment: Assesment | undefined,
+  cargaAssesment: (newAssesment: Assesment) => void
+}
 
-export const AssesmentContext = createContext(null);
+export const AssesmentContext = createContext<AssesmentContextType|null>(null);
 
 function App() {
   const [assesment, setAssesment] = useState<Assesment>();
   
   const navigate = useNavigate();
+
   const cargaAssesment = (newAssesment: Assesment) => {
     setAssesment(newAssesment)
     navigate('/assesment', {replace: true})

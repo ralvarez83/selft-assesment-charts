@@ -1,13 +1,16 @@
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import {  useContext, useState } from "react";
 import readXlsxFile from 'read-excel-file'
-import { type Input, schema, type ExcelAssesment } from "../infraestructure/LoadFile/types";
+import { type Input } from "../infraestructure/LoadFile/types";
 import { ExtFile } from "@files-ui/core";
 import { TeamAssesment } from "../Domain/TeamAssesment";
 import { Assesment } from "../Domain/Assesment";
-import { Evaluation } from "../Domain/type";
-import { AssesmentContext } from "../App";
+import { Evaluation } from "../Domain/type.d";
+import { AssesmentContext, AssesmentContextType } from "../App";
 import { Solicitudes } from "../Domain/Solicitudes";
+import {InformaDBSchema} from "../infraestructure/LoadFile/InformaDBAssesment/InformaDBSchema.d"
+import { InformaDBTransformation } from "../infraestructure/LoadFile/InformaDBAssesment/InformaDBTransformation";
+import { InformaDBSchemaData } from "../infraestructure/LoadFile/InformaDBAssesment/types";
 
 // interface Props {
 //   setAssesment: Dispatch<SetStateAction<Assesment | undefined>>
@@ -15,25 +18,26 @@ import { Solicitudes } from "../Domain/Solicitudes";
 
 export const LoadFile = (): JSX.Element => {
   const [files, setFiles] = useState(new Array<ExtFile>(0));
-  const {
-    cargaAssesment
-  } = useContext(AssesmentContext);
+  const assesmentContext : AssesmentContextType | null = useContext(AssesmentContext);
+
   
   const updateFiles = (incommingFiles: ExtFile[]) => {
     // console.log("incomming files", incommingFiles);
     setFiles(incommingFiles);
-    readXlsxFile(incommingFiles[0].file as Input, {schema}).then(({ rows, errors }) => {
+    readXlsxFile(incommingFiles[0].file as Input, {schema : InformaDBSchema}).then(({ rows, errors }) => {
       errors.length === 0
 
-      // console.log("Datos: ", rows)
+      //console.log("Datos: ", rows)
 
       const teamAssesments = rows.reduce((totalAssesment: TeamAssesment[], personAssesment) => {
-        const {equipo, areasSolicitantes, comunicacionOtrasAreas, canalSolicitud, otrasMejoras} = (personAssesment as ExcelAssesment)
+        const assesmentData = new InformaDBTransformation(personAssesment as InformaDBSchemaData)
+        const excelData = assesmentData.excelAssesment
+        const {equipo, areasSolicitantes, comunicacionOtrasAreas, canalSolicitud, otrasMejoras} = excelData
 
         if (totalAssesment.find((team: TeamAssesment) => {return team.name === equipo}) === undefined){
           const newTeam : TeamAssesment = new TeamAssesment(
             equipo, 
-            [{... (personAssesment as Evaluation)}],
+            [{... (excelData as Evaluation)}],
             [new Solicitudes(areasSolicitantes, comunicacionOtrasAreas, canalSolicitud)],
             [otrasMejoras]
           )
@@ -48,7 +52,7 @@ export const LoadFile = (): JSX.Element => {
             if (team.name === equipo)
               team.evaluations = [
                 ... team.evaluations,
-                {... (personAssesment as Evaluation)}
+                {... (excelData as Evaluation)}
               ]
               team.solicitudes = [
                 ... team.solicitudes,
@@ -70,7 +74,7 @@ export const LoadFile = (): JSX.Element => {
       
       // console.log("Assesment: ", assesment)
 
-      cargaAssesment(assesment)
+      assesmentContext?.cargaAssesment(assesment)
       
     })
   };

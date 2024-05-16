@@ -1,10 +1,13 @@
-
+import {
+  useNavigate
+} from 'react-router-dom'
 import { useContext } from "react";
 import { TeamAssesment } from "../Domain/TeamAssesment"
 import { RadarChart } from "./Assesments/RadarChart"
-import { AssesmentContext } from "../App";
+import { AssesmentContext, AssesmentContextType } from "../App";
 import { Link } from 'react-router-dom';
 import { ValorationBar } from "./shared/ValorationBat";
+import { Assesment } from '../Domain/Assesment';
 
 // interface Props{
 //   dataAssesment: Assesment
@@ -12,13 +15,17 @@ import { ValorationBar } from "./shared/ValorationBat";
 
 export const Assesments = (): JSX.Element => {
 
-  const {
-    assesment
-  } = useContext(AssesmentContext);
+  const assesmentContext : AssesmentContextType | null = useContext(AssesmentContext);
+  const navigate = useNavigate();
   
-  const dataAssesment = assesment
+  if (!assesmentContext){
+    navigate('/', {replace: true})
+  }
+  
+  const dataAssesment : Assesment = (assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([])
+  
 
-  const globalEvaluation : TeamAssesment = new TeamAssesment ("Global", dataAssesment.getTeamEvaluations())
+  const globalEvaluation : TeamAssesment = dataAssesment.getGlobalAsATeam()
 
   return (
     <main>
@@ -46,7 +53,7 @@ export const Assesments = (): JSX.Element => {
                 <figcaption><Link to={'/assesment/team/' + teamAssesment.id}>{teamAssesment.name}</Link></figcaption>
                 <RadarChart teamsData={[teamAssesment]} />
               </figure>
-              <ValorationBar title="Valoracion comunicación" max={5} value={Number.parseInt(teamAssesment.comunicationMediane)} />
+              <ValorationBar title="Valoracion comunicación" max={5} value={teamAssesment.comunicationMediane} />
             </article>
           )
         })}
