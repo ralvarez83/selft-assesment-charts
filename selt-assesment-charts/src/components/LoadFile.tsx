@@ -22,12 +22,12 @@ export const LoadFile = (): JSX.Element => {
 
   
   const updateFiles = (incommingFiles: ExtFile[]) => {
-    // console.log("incomming files", incommingFiles);
+    console.log("incomming files", incommingFiles);
     setFiles(incommingFiles);
     readXlsxFile(incommingFiles[0].file as Input, {schema : InformaDBSchema}).then(({ rows, errors }) => {
       errors.length === 0
-
-      //console.log("Datos: ", rows)
+      // console.error("Errores carga Excel: ", errors)
+      console.log("Datos: ", rows)
 
       const teamAssesments = rows.reduce((totalAssesment: TeamAssesment[], personAssesment) => {
         const assesmentData = new InformaDBTransformation(personAssesment as InformaDBSchemaData)
