@@ -3,15 +3,13 @@ import {
 } from 'react-router-dom'
 import { useContext } from "react";
 import { TeamAssesment } from "../Domain/TeamAssesment"
-import { RadarChart } from "./Assesments/RadarChart"
 import { AssesmentContext, AssesmentContextType } from "../App";
 import { Link } from 'react-router-dom';
 import { ValorationBar } from "./shared/ValorationBat";
 import { Assesment } from '../Domain/Assesment';
-
-// interface Props{
-//   dataAssesment: Assesment
-// }
+import { Assesment as AssesmentView } from '../infraestructure/AssesmentView/DefaultAssesment/Assesment'
+import { RadarData } from '../infraestructure/Charts/DefaultAssesment/RadarData';
+import { RadarChart } from './shared/RadarChart';
 
 export const Assesments = (): JSX.Element => {
 
@@ -22,10 +20,14 @@ export const Assesments = (): JSX.Element => {
     navigate('/', {replace: true})
   }
   
-  const dataAssesment : Assesment = (assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([])
+  const dataAssesment : AssesmentView = new AssesmentView((assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([]))
   
-
   const globalEvaluation : TeamAssesment = dataAssesment.getGlobalAsATeam()
+
+  const globalData : RadarData = new RadarData([globalEvaluation]);
+
+  const teamsData : RadarData = new RadarData(dataAssesment.teamAssesments);
+
 
   return (
     <main>
@@ -34,13 +36,13 @@ export const Assesments = (): JSX.Element => {
       <article>
         <figure>
           <figcaption>Datos globales</figcaption>
-          <RadarChart teamsData={[globalEvaluation]} />
+          <RadarChart data={globalData.getDataChart()} />
         </figure>
       </article>
       <article>
         <figure>
           <figcaption>Datos de todos los equipos juntos</figcaption>
-          <RadarChart teamsData={dataAssesment.teamAssesments} />
+          <RadarChart data={teamsData.getDataChart()} />
         </figure></article>
     </section>
     
@@ -51,7 +53,7 @@ export const Assesments = (): JSX.Element => {
             <article key={teamAssesment.id}>
               <figure>
                 <figcaption><Link to={'/assesment/team/' + teamAssesment.id}>{teamAssesment.name}</Link></figcaption>
-                <RadarChart teamsData={[teamAssesment]} />
+                <RadarChart data={(new RadarData([teamAssesment])).getDataChart()} />
               </figure>
               <ValorationBar title="Valoracion comunicación" max={5} value={teamAssesment.comunicationMediane} />
             </article>

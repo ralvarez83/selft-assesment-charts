@@ -1,4 +1,4 @@
-import { Evaluation } from "../../Domain/type";
+import { Evaluation } from "../../Domain/DefaultAssesment/type";
 
 export type Input = File | Blob | ArrayBuffer;
 

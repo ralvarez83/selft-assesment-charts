@@ -1,4 +1,4 @@
-export type InformaDBSchemaData = {
+export type DefaultAssesmentSchemaData = {
   id: number,
   equipo: string,
   multidisciplinar: strint,

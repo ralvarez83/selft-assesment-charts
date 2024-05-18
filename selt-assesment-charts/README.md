@@ -1,30 +1,18 @@
-# React + TypeScript + Vite
+# Datos de Auto-Evaluaciones
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este producto nace de dos necesidades, la primera es extraer información de una auto-evaluación del nivel de agilidad que ha realizado una organización. Esta auto-evaluación se realiza en base a un cuestionario donde las personas han de elegir, por cada pregunta, el nivel de madurez entre 1 y 5. La segunda necesidad es la de seguir aprendiendo y practicando el desarrollo de productos.
 
-Currently, two official plugins are available:
+Para recoger la información se ha utilizado Microsoft Forms y los resultados se descargan en un Excel con el siguiente formato.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+|       Id      |    Equipo     |  Pregunta 1   |   Pregunta 2  |       ...     |   Pregunta N  |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+|        1      |  Bob Esponja  |    Opción 1   |    Opción 5   |       ...     |    Opción 2   |
+|        2      |  Bob Esponja  |    Opción 1   |    Opción 5   |       ...     |    Opción 2   |
 
-## Expanding the ESLint configuration
+En esta versión se ha implementado la recuperación desde el fichero Excel que genera Microsoft Forms para un formato determinado de self-assesment el cuál se ha denominado DefaultAssesment.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Para su elaboración se ha usado ReactJs siguiendo parte de una infraestructura Hexagonal y un patron de diseño DDD. Quiero recalcar que sólo en parte debido ya que la aplicación no es muy grande y además sólo se prevee que se amplie por la incorporación de otros Excel con preguntas diferentes.
 
-- Configure the top-level `parserOptions` property like this:
+Así se ha procurado que la incorporación de un nuevo formulario imple el menor número de cambios en la aplicación. Se deberá modificar:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Un numero tipo de Evaluación en Infraestructura (")

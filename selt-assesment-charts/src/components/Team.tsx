@@ -4,9 +4,10 @@ import {
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AssesmentContext, AssesmentContextType } from "../App";
-import { RadarChart } from "./Assesments/RadarChart";
 import { ValorationBar } from "./shared/ValorationBat";
+import { RadarData } from '../infraestructure/Charts/DefaultAssesment/RadarData';
 import { Assesment } from '../Domain/Assesment';
+import { RadarChart } from './shared/RadarChart';
 
 export const Team = (): JSX.Element => {
   const {id} = useParams();
@@ -21,7 +22,9 @@ export const Team = (): JSX.Element => {
   const assesment : Assesment = (assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([])
   
   const team = assesment.getTeamById(!id? "0": id)
-  console.log(team?.comunicationMediane)
+  // console.log(team?.comunicationMediane)
+  
+  const teamData : RadarData = new RadarData(team? [team]: []);
   
   console.log("Team: ", team)
   return (
@@ -36,7 +39,7 @@ export const Team = (): JSX.Element => {
             <article className="detail">
               <figure>
                 <figcaption>Mediana del equipo</figcaption>
-                <RadarChart teamsData={[team]} />
+                <RadarChart data={teamData.getDataChart()} />
               </figure>
             </article>
             <article>

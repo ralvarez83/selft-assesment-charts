@@ -1,11 +1,11 @@
-import { ExcelAssesment } from "../types.d"
-import { InformaDBSchemaData } from "./types.d"
+import { ExcelAssesment } from "../types"
+import { DefaultAssesmentSchemaData } from "./types"
 
-export class InformaDBTransformation {
+export class DefaultPersonAssesmentTransformation {
 
   private _excelAssesment : ExcelAssesment
 
-  constructor(assesmentData: InformaDBSchemaData) {
+  constructor(assesmentData: DefaultAssesmentSchemaData) {
     this._excelAssesment = {
       ... assesmentData,
       multidisciplinar: this.getOption(assesmentData.multidisciplinar),

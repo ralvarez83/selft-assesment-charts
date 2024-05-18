@@ -1,4 +1,4 @@
-export const InformaDBSchema = {
+export const DefaultAssesmentSchema = {
   'Id': {
     prop: "id",
     type: Number
