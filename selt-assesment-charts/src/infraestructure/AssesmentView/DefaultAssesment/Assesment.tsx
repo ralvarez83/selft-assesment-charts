@@ -3,8 +3,9 @@ import { DefaultEvaluations } from '../../../Domain/DefaultAssesment/DefaultEval
 import { Evaluation } from '../../../Domain/DefaultAssesment/type'
 import { Solicitudes } from '../../../Domain/Solicitudes'
 import { TeamAssesment } from '../../../Domain/TeamAssesment'
+import { AssesmentView } from '../AssesmentView'
 
-export class Assesment {
+export class Assesment implements AssesmentView {
   
   #assesment : AssesmentDomain
   
