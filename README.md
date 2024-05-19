@@ -11,7 +11,7 @@ Para recoger la información se ha utilizado Microsoft Forms y los resultados se
 
 En esta versión se ha implementado la recuperación desde el fichero Excel que genera Microsoft Forms para un formato determinado de self-assesment el cuál se ha denominado DefaultAssesment.
 
-Para su elaboración se ha usado **ReactJs** siguiendo parte de un **patron de diseño DDD**. Quiero recalcar que sólo en parte debido ya que la aplicación no es muy grande y además sólo se prevee que se amplie por la incorporación de otros Excel con preguntas diferentes.
+Para su elaboración se ha usado **ReactJs** siguiendo parte de una **arquitectura Hexagonal** usando sólo las capas de **Dominio** e **Infraestructura**. Quiero recalcar que sólo en parte debido ya que la aplicación no es muy grande y además sólo se prevee que se amplie por la incorporación de otros Excel con preguntas diferentes.
 
 Así se ha procurado que la incorporación de un nuevo formulario imple el menor número de cambios en la aplicación. Se deberá modificar:
 
