@@ -22,4 +22,19 @@ Así se ha procurado que la incorporación de un nuevo formulario imple el menor
 
 Además este producto se ha **Dokerizado** y se ha subido al Hub de Docker de manera pública en mi perfil [rubenag83](https://hub.docker.com/u/rubenag83).
 
-Por último indicar que si se quiere probar se ha publicado en un servidor con la siguiente URL de acceso: [http://194.164.174.221:8080](http://194.164.174.221:8080) y pueden utilizar el siguiente fichero: [datos-prueba.xlsx](https://github.com/ralvarez83/selft-assesment-charts/blob/main/prueba/datos-prueba.xlsx)
+## Despliegue
+
+La aplicación es 100% cliente: el Excel se lee y se procesa en el navegador, no hay backend ni base de datos. Por eso se publica como sitio estático en **GitHub Pages**, servido bajo el dominio propio [https://datos-auto-evaluacion.rubenalvarezgonzalez.eu](https://datos-auto-evaluacion.rubenalvarezgonzalez.eu).
+
+El despliegue es automático mediante el workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): cada `push` a `main` compila el proyecto con `pnpm run build` y publica el contenido de `selt-assesment-charts/dist` en Pages. También se puede lanzar a mano desde la pestaña *Actions* (`workflow_dispatch`).
+
+Detalles a tener en cuenta si se toca la configuración:
+
+- `selt-assesment-charts/public/CNAME` fija el dominio propio. GitHub Pages lo lee del artefacto publicado, así que este fichero es la fuente de verdad del dominio.
+- Al usar dominio propio, `base` en [`vite.config.ts`](selt-assesment-charts/vite.config.ts) debe seguir siendo `"/"`. Si se quisiera servir desde `https://ralvarez83.github.io/selft-assesment-charts/` habría que cambiarlo a `"/selft-assesment-charts/"`.
+- Como Pages sirve ficheros estáticos, una recarga directa sobre una ruta de `react-router` (por ejemplo `/assesment/team/1`) no encontraría fichero. El plugin `spa-404-fallback` de `vite.config.ts` copia `index.html` a `404.html` en cada build para que Pages devuelva la SPA y el enrutado se resuelva en el navegador.
+- `public/.nojekyll` evita que Pages procese la salida con Jekyll.
+
+El `Dockerfile` y el `docker-compose.yaml` se mantienen para quien prefiera levantarlo en su propia máquina o servidor.
+
+Por último indicar que si se quiere probar la aplicación está publicada en [https://datos-auto-evaluacion.rubenalvarezgonzalez.eu](https://datos-auto-evaluacion.rubenalvarezgonzalez.eu) y pueden utilizar el siguiente fichero: [datos-prueba.xlsx](https://github.com/ralvarez83/selft-assesment-charts/blob/main/prueba/datos-prueba.xlsx)
