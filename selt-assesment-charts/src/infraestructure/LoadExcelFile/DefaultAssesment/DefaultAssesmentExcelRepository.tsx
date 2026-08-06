@@ -4,21 +4,21 @@ import { Solicitudes } from "../../../Domain/Solicitudes";
 import { TeamAssesment } from "../../../Domain/TeamAssesment";
 import { DefaultPersonAssesmentTransformation } from "./DefaultPersonAssesmentTransformation";
 import { DefaultAssesmentSchemaData } from "./types";
-import { Schema } from "read-excel-file";
-import { DefaultAssesmentSchema } from "./DefaultAssesmentSchema.d";
+import type { Schema } from "read-excel-file/browser";
+import { DefaultAssesmentSchema } from "./DefaultAssesmentSchema";
 import { DefaultEvaluations } from "../../../Domain/DefaultAssesment/DefaultEvaluations";
-import { Evaluation } from "../../../Domain/DefaultAssesment/type.d";
+import { Evaluation } from "../../../Domain/DefaultAssesment/type";
 
-export class DefaultAssementExcelRepository implements AssesmentExcelRepository {
+export class DefaultAssementExcelRepository implements AssesmentExcelRepository<DefaultAssesmentSchemaData> {
   
-  getSchema = () : Schema =>{
+  getSchema = () : Schema<DefaultAssesmentSchemaData> =>{
     return DefaultAssesmentSchema
   }
 
-  transformRowsToAssesment (rows: object[]) : Assesment {
+  transformRowsToAssesment (rows: DefaultAssesmentSchemaData[]) : Assesment {
 
     const teamAssesments = rows.reduce((totalAssesment: TeamAssesment[], personAssesment) => {
-      const assesmentData = new DefaultPersonAssesmentTransformation(personAssesment as DefaultAssesmentSchemaData)
+      const assesmentData = new DefaultPersonAssesmentTransformation(personAssesment)
       const excelData = assesmentData.excelAssesment
       const {equipo, areasSolicitantes, comunicacionOtrasAreas, canalSolicitud, otrasMejoras} = excelData
 

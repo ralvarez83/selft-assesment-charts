@@ -22,6 +22,20 @@ Así se ha procurado que la incorporación de un nuevo formulario imple el menor
 
 Además este producto se ha **Dokerizado** y se ha subido al Hub de Docker de manera pública en mi perfil [rubenag83](https://hub.docker.com/u/rubenag83).
 
+## Puesta en marcha en local
+
+El gestor de paquetes es **pnpm** y el lockfile está versionado, así que la instalación es reproducible:
+
+```bash
+cd selt-assesment-charts
+pnpm install --frozen-lockfile
+pnpm run dev      # servidor de desarrollo
+pnpm run lint     # ESLint (flat config, sin warnings permitidos)
+pnpm run build    # comprobación de tipos + bundle de producción en dist/
+```
+
+El stack es React 19, TypeScript 5.9, Vite 8, react-router 8 y Chart.js 4. La lectura del Excel usa `read-excel-file`, cuyo esquema se declara en [`DefaultAssesmentSchema.ts`](selt-assesment-charts/src/infraestructure/LoadExcelFile/DefaultAssesment/DefaultAssesmentSchema.ts) indexado por propiedad, con el título de la columna del Excel en `column`.
+
 ## Despliegue
 
 La aplicación es 100% cliente: el Excel se lee y se procesa en el navegador, no hay backend ni base de datos. Por eso se publica como sitio estático en **GitHub Pages**, servido bajo el dominio propio [https://datos-auto-evaluacion.rubenalvarezgonzalez.eu](https://datos-auto-evaluacion.rubenalvarezgonzalez.eu).

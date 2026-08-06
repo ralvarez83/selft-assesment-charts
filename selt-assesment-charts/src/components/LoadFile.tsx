@@ -1,14 +1,14 @@
-import { Dropzone, FileMosaic } from "@files-ui/react";
+import { Dropzone } from "@files-ui/react";
 import {  useContext } from "react";
-import { AssesmentContext, AssesmentContextType } from "../App";
+import { AssesmentContext, AssesmentContextType } from "../AssesmentContext";
 import { useLoadXMLDefaultSchema } from "../hooks/useLoadXMLFileDefaultSchema";
 import { DefaultAssementExcelRepository } from "../infraestructure/LoadExcelFile/DefaultAssesment/DefaultAssesmentExcelRepository";
 
-export const LoadFile = (): JSX.Element => {
+export const LoadFile = (): React.JSX.Element => {
   const assesmentContext : AssesmentContextType | null = useContext(AssesmentContext);
   const defaultAssesmentRespository : DefaultAssementExcelRepository = new DefaultAssementExcelRepository()
-  
-  const {files, updateFiles} = useLoadXMLDefaultSchema(assesmentContext, defaultAssesmentRespository)
+
+  const {files, error, updateFiles} = useLoadXMLDefaultSchema(assesmentContext, defaultAssesmentRespository)
 
   return (
     <main>
@@ -20,9 +20,12 @@ export const LoadFile = (): JSX.Element => {
         //accept="image/*"
       >
         {files.map((file) => (
-          <FileMosaic key={file.id} {...file} info />
+          <p key={file.id}>{file.name}</p>
         ))}
       </Dropzone>
+      {error &&
+        <aside role="alert">{error}</aside>
+      }
     </main>
   );
 }

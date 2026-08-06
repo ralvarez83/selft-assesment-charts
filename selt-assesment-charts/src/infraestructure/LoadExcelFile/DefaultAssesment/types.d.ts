@@ -1,7 +1,7 @@
 export type DefaultAssesmentSchemaData = {
   id: number,
   equipo: string,
-  multidisciplinar: strint,
+  multidisciplinar: string,
   trabajoDesdeBacklog: string,
   mejoraContinua: string,
   coResponsabilidad: string,

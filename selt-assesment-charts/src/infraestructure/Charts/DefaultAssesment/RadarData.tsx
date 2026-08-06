@@ -1,7 +1,7 @@
 import { TeamAssesment } from "../../../Domain/TeamAssesment"
-import { BACKLOG_TRABAJADO, COORDINACION_INTER_EQUIPOS, CO_RESPONSABILIDAD, EQUIPOS_MULTIDISCIPLINARES, EVENTOS_SCRUM_KANBAN, FEEDBACK_USUARIOS, MEJORA_CONTINUA, PROGRESO_TRABAJO_TERMINADO, ROLES_SCRUM_KANBAN, TRABAJO_DESDE_BACKLOG } from "../../../Domain/DefaultAssesment/type.d"
+import { BACKLOG_TRABAJADO, COORDINACION_INTER_EQUIPOS, CO_RESPONSABILIDAD, EQUIPOS_MULTIDISCIPLINARES, EVENTOS_SCRUM_KANBAN, FEEDBACK_USUARIOS, MEJORA_CONTINUA, PROGRESO_TRABAJO_TERMINADO, ROLES_SCRUM_KANBAN, TRABAJO_DESDE_BACKLOG } from "../../../Domain/DefaultAssesment/type"
 import { ChartDataGenerator, DataChart, DataSetElement } from "../type.d"
-import { Evaluation } from "../../../Domain/DefaultAssesment/type.d"
+import { Evaluation } from "../../../Domain/DefaultAssesment/type"
 
 export class RadarData implements ChartDataGenerator {
 

@@ -1,7 +1,9 @@
-import { Schema } from "read-excel-file"
+import type { Schema } from "read-excel-file/browser"
 import { Assesment } from "../../Domain/Assesment"
 
-export interface AssesmentExcelRepository{
-  transformRowsToAssesment: (rows: object[]) => Assesment
-  getSchema: () => Schema
+// `Row` es la forma del objeto que produce el esquema del Excel, distinta para
+// cada tipo de auto-evaluación.
+export interface AssesmentExcelRepository<Row extends object = object>{
+  transformRowsToAssesment: (rows: Row[]) => Assesment
+  getSchema: () => Schema<Row>
 }
