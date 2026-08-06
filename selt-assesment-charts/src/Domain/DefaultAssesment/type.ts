@@ -14,7 +14,7 @@ export const TRABAJO_DESDE_BACKLOG = "Trabajo desde el backlog"
 export type Evaluation = {
 
   backlogGestionadoPriorizadoActualizado: number,
-  canalSolicitud: Strint[],
+  canalSolicitud: string[],
   coResponsabilidad: number,
   coordinacionInterEquipos: number,
   eventosScrumKanban: number,

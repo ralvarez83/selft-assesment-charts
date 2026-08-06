@@ -6,7 +6,7 @@
 // 	// types...
 // }
 
-const Navbar = (): JSX.Element => {
+const Navbar = (): React.JSX.Element => {
 	return (
 		<>
 		{/* <AppBar position="static">
@@ -29,7 +29,7 @@ const Navbar = (): JSX.Element => {
 				
       </AppBar> */}
 			<nav>
-				<img src="/logo.svg" />
+				<img src="/logo.svg" alt="" />
 				<h1>
 					Datos de Auto-Evaluación
 				</h1>

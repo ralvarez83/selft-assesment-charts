@@ -2,8 +2,8 @@ import {
   Route,
   Routes,
   useNavigate
-} from 'react-router-dom'
-import { createContext, useState } from 'react'
+} from 'react-router'
+import { useState } from 'react'
 import './App.css'
 import { LoadFile } from './components/LoadFile'
 import { Assesments } from './components/Assesment';
@@ -11,13 +11,7 @@ import Navbar from './components/Navbar';
 import { DevFooter } from './components/DevFooter';
 import { Assesment } from './Domain/Assesment';
 import { Team } from './components/Team';
-
-export type AssesmentContextType = {
-  assesment: Assesment | undefined,
-  cargaAssesment: (newAssesment: Assesment) => void
-}
-
-export const AssesmentContext = createContext<AssesmentContextType|null>(null);
+import { AssesmentContext } from './AssesmentContext';
 
 function App() {
   const [assesment, setAssesment] = useState<Assesment>();

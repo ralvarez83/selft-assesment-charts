@@ -24,7 +24,7 @@ export class Assesment implements AssesmentView {
   private getTeamsEvaluations (): DefaultEvaluations {
 
     const evaluations = this.#assesment.teamAssesments.reduce((totalArray, team) =>{
-      return totalArray = totalArray.concat(team.evaluations.value as Evaluation[])
+      return totalArray.concat(team.evaluations.value as Evaluation[])
     },new Array<Evaluation>(0))
 
     //console.log("Evaluations: ", evaluations)
@@ -34,7 +34,7 @@ export class Assesment implements AssesmentView {
   private getTeamsRequest (): Solicitudes[] {
 
     const requests = this.#assesment.teamAssesments.reduce((totalRequests, team) =>{
-      return totalRequests = totalRequests.concat(team.solicitudes)
+      return totalRequests.concat(team.solicitudes)
     },new Array<Solicitudes>(0))
 
     //console.log("Evaluations: ", evaluations)
@@ -43,7 +43,7 @@ export class Assesment implements AssesmentView {
 
   private getTeamsOtherImprovements (): string[] {
     const otherImprovements = this.#assesment.teamAssesments.reduce((totalOtherImprovements, team) =>{
-      return totalOtherImprovements = totalOtherImprovements.concat(team.otrasMejoras)
+      return totalOtherImprovements.concat(team.otrasMejoras)
     },new Array<string>(0))
 
     //console.log("Evaluations: ", evaluations)

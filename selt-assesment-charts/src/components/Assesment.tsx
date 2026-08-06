@@ -1,27 +1,24 @@
-import {
-  useNavigate
-} from 'react-router-dom'
 import { useContext } from "react";
 import { TeamAssesment } from "../Domain/TeamAssesment"
-import { AssesmentContext, AssesmentContextType } from "../App";
-import { Link } from 'react-router-dom';
+import { AssesmentContext, AssesmentContextType } from "../AssesmentContext";
+import { Link, Navigate } from 'react-router';
 import { ValorationBar } from "./shared/ValorationBat";
-import { Assesment } from '../Domain/Assesment';
 import { Assesment as AssesmentView } from '../infraestructure/AssesmentView/DefaultAssesment/Assesment'
 import { RadarData } from '../infraestructure/Charts/DefaultAssesment/RadarData';
 import { RadarChart } from './shared/RadarChart';
 
-export const Assesments = (): JSX.Element => {
+export const Assesments = (): React.JSX.Element => {
 
   const assesmentContext : AssesmentContextType | null = useContext(AssesmentContext);
-  const navigate = useNavigate();
-  
-  if (!assesmentContext){
-    navigate('/', {replace: true})
+
+  // Redirigir es un efecto: hacerlo con navigate() en pleno render provoca un
+  // aviso de React y deja terminar el render de un estado que no existe.
+  if (!assesmentContext?.assesment){
+    return <Navigate to="/" replace />
   }
-  
-  const dataAssesment : AssesmentView = new AssesmentView((assesmentContext !== null && assesmentContext.assesment !== undefined)? assesmentContext.assesment : new Assesment([]))
-  
+
+  const dataAssesment : AssesmentView = new AssesmentView(assesmentContext.assesment)
+
   const globalEvaluation : TeamAssesment = dataAssesment.getGlobalAsATeam()
 
   const globalData : RadarData = new RadarData([globalEvaluation]);
